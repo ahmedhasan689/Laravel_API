@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -14,10 +15,12 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
+        // return parent::toArray($request);
         return [
+            'id' => $this->id,
             'title' => $this->title,
-            'msg' => 'Done',
-            'status' => 200,
+            'body' => $this->body,
+            'created_at' => Carbon::now(),
         ];
     }
 }

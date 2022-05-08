@@ -20,11 +20,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = new PostCollection( Post::all() );
 
-        return $this->response($posts, 200,
-            'Ok, Found All'
-        );
+        if($posts) {
+            return $posts;
+        }else{
+            return $this->response(null, 200, 'Oops, Not Found');
+        }
     }
 
     /**
@@ -46,7 +48,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = new PostResource( Post::find($id) );
 
         if($post) {
             return $this->response($post, 200, 'Ok, Found it');
