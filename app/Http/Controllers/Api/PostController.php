@@ -87,7 +87,28 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+
+        // If Not Found (Before Update)
+        if(!$post) {
+            return $this->response(null, 404, 'Not Found!');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:3|max:255',
+            'body' => 'required|min:5',
+        ]);
+
+        if($validator->fails()) {
+            return $this->response(null, 400, $validator->errors());
+        }
+
+        // Found
+        $post->update($request->all());
+
+        if($post) {
+            return $this->response(new PostResource($post), 201, 'Post Successfully Updated!');
+        }
     }
 
     /**
