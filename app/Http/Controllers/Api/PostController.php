@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PostCollection;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Trait\PostTrait;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\PostCollection;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -37,6 +38,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+        // $request->validate([
+        //     'title' => 'required|min:3',
+        //     'body' => 'required|min:5',
+        // ]);
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:3|max:255',
+            'body' => 'required|min:5',
+        ]);
+
+        if($validator->fails()) {
+            return $this->response(null, 400, $validator->errors());
+        }
+
         $post = Post::create($request->all());
 
         if($post) {
