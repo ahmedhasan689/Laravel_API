@@ -24,3 +24,4 @@ Route::get('/posts', [PostController::class, 'index'])->name('Api.post.index');
 Route::get('/post/{id}', [PostController::class, 'show'])->name('Api.post.show');
 Route::post('/post', [PostController::class, 'store'])->name('Api.post.store');
 Route::put('/post/{id}', [PostController::class, 'update'])->name('Api.post.update');
+Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('Api.post.delete');
