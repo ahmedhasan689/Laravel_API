@@ -48,10 +48,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = new PostResource( Post::find($id) );
+        $post = Post::find($id);
 
         if($post) {
-            return $this->response($post, 200, 'Ok, Found it');
+            return $this->response(new PostResource($post), 200, 'Ok, Found it');
         }else{
             return $this->response(null, 200, 'Oops, Not Found');
         }
