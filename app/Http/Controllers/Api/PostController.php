@@ -37,7 +37,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = Post::create($request->all());
+
+        if($post) {
+            return $this->response(new PostResource($post), 201, 'Post Successfully Created!');
+        }else{
+            return $this->response($post, 400, 'There Is Error!');
+        }
     }
 
     /**
